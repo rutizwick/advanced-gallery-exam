@@ -1,0 +1,9 @@
+.image-modal{
+    border: 1px solid black;
+    background-color: aqua;
+}
+
+.image-in-modal{
+    height: 10rem;
+    width: 10rem;
+}
