@@ -4,6 +4,7 @@ import FontAwesome from 'react-fontawesome';
 import './Image.scss';
 
 class Image extends React.Component {
+
   static propTypes = {
     dto: PropTypes.object,
     galleryWidth: PropTypes.number
@@ -47,13 +48,17 @@ class Image extends React.Component {
     })
   }
 
+
   render() {
+
     const { rotation } =  this.state;
+    const {dto} = this.props;
+
     return ( 
       <div
         className="image-root"
         style={{
-          backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
+          backgroundImage: `url(${this.urlFromDto(dto)})`,
           width: this.state.size + 'px',
           height: this.state.size + 'px',
           transform: `rotate(${rotation}deg)`
@@ -63,10 +68,15 @@ class Image extends React.Component {
         style={{
           transform: `rotate(${-rotation}deg)`
         }}>
+          
           <FontAwesome 
           onClick={this.rotateImage}
           className="image-icon" name="sync-alt" title="rotate"/>
-          <FontAwesome className="image-icon" name="trash-alt" title="delete"/>
+
+          <FontAwesome 
+          onClick={this.props.deleteImage.bind(this, dto.id)}
+          className="image-icon" name="trash-alt" title="delete"/>
+
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
       </div>

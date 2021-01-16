@@ -39,4 +39,7 @@ describe('Image', () => {
     expect(remainder).to.be.lessThan(1);
   });
 
+  it('rotates 90 degrees on click', ()=> {
+
+  })
 });
