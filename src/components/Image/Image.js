@@ -19,7 +19,6 @@ class Image extends React.Component {
       rotation: 0,
       showModal: false
     };
-    
     this.rotateImage = this.rotateImage.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
