@@ -1,26 +1,26 @@
-import React from "react";
-import Modal from "react-modal";
-import "./ImageModal.css";
+import React from 'react';
+import Modal from 'react-modal';
+import './ImageModal.css';
 
 export default class ImageModal extends React.Component {
   componentWillMount() {
-    Modal.setAppElement("body");
+    Modal.setAppElement('body');
   }
 
   render() {
     const { isOpen, imageData, handleCloseModal, imgUrl } = this.props;
 
     return (
-          <Modal 
+          <Modal
           onRequestClose={handleCloseModal}
-          className="image-modal" 
+          className='image-modal'
           isOpen={isOpen}>
-            <span className="close-button" onClick={handleCloseModal}>
+            <span className='close-button' onClick={handleCloseModal}>
               &times;
             </span>
             <img
               alt={imageData.title}
-              className="image-in-modal"
+              className='image-in-modal'
               src={imgUrl}
             />
           </Modal>

@@ -9,7 +9,7 @@ class Image extends React.Component {
 
   static propTypes = {
     dto: PropTypes.object,
-    galleryWidth: PropTypes.number,
+    galleryWidth: PropTypes.number
   };
 
   constructor(props) {
@@ -17,7 +17,7 @@ class Image extends React.Component {
     this.state = {
       size: 200,
       rotation: 0,
-      showModal: false,
+      showModal: false
     };
     
     this.rotateImage = this.rotateImage.bind(this);
@@ -31,7 +31,7 @@ class Image extends React.Component {
     const imagesPerRow = Math.round(galleryWidth / targetSize);
     const size = galleryWidth / imagesPerRow;
     this.setState({
-      size,
+      size
     });
   }
 
@@ -55,19 +55,19 @@ class Image extends React.Component {
       newRotation = -360;
     }
     this.setState({
-      rotation: newRotation,
+      rotation: newRotation
     });
   }
 
   handleOpenModal() {
     this.setState({
-      showModal: true,
+      showModal: true
     });
   }
 
   handleCloseModal() {
     this.setState({
-      showModal: false,
+      showModal: false
     });
   }
 
@@ -82,12 +82,12 @@ class Image extends React.Component {
           width: this.state.size + 'px',
           height: this.state.size + 'px',
           backgroundImage: `url(${this.urlFromDto(dto)})`,
-          transform: `rotate(${rotation}deg)`,
+          transform: `rotate(${rotation}deg)`
         }}
       >
         <div
           style={{
-            transform: `rotate(${-rotation}deg)`,
+            transform: `rotate(${-rotation}deg)`
           }}
         >
           <FontAwesome
@@ -112,7 +112,7 @@ class Image extends React.Component {
           />
         </div>
 
-        <ImageModal isOpen={showModal} 
+        <ImageModal isOpen={showModal}
         handleCloseModal ={this.handleCloseModal}
         imageData = {dto}
         imgUrl = {`${this.urlFromDto(dto)}`}
