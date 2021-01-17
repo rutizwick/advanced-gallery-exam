@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import FontAwesome from "react-fontawesome";
-import "./Image.scss";
+import React from 'react';
+import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
+import './Image.scss';
 import ImageModal from '../ImageModal/ImageModal'
 
 
@@ -14,12 +14,12 @@ class Image extends React.Component {
 
   constructor(props) {
     super(props);
-    this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
       size: 200,
       rotation: 0,
       showModal: false,
     };
+    
     this.rotateImage = this.rotateImage.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -37,6 +37,12 @@ class Image extends React.Component {
 
   componentDidMount() {
     this.calcImageSize();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.galleryWidth !== prevProps.galleryWidth) {
+      this.calcImageSize();
+    }
   }
 
   urlFromDto(dto) {
@@ -67,15 +73,14 @@ class Image extends React.Component {
 
   render() {
     const { rotation, showModal } = this.state;
-    const { dto, galleryWidth } = this.props;
-    
+    const { dto } = this.props;
 
     return (
       <div
-        className="image-root"
+        className='image-root'
         style={{
-          width: this.state.size + "px",
-          height: this.state.size + "px",
+          width: this.state.size + 'px',
+          height: this.state.size + 'px',
           backgroundImage: `url(${this.urlFromDto(dto)})`,
           transform: `rotate(${rotation}deg)`,
         }}
@@ -87,23 +92,23 @@ class Image extends React.Component {
         >
           <FontAwesome
             onClick={this.rotateImage}
-            className="image-icon"
-            name="sync-alt"
-            title="rotate"
+            className='image-icon'
+            name='sync-alt'
+            title='rotate'
           />
 
           <FontAwesome
             onClick={this.props.deleteImage.bind(this, dto.id)}
-            className="image-icon"
-            name="trash-alt"
-            title="delete"
+            className='image-icon'
+            name='trash-alt'
+            title='delete'
           />
 
           <FontAwesome
             onClick={this.handleOpenModal}
-            className="image-icon"
-            name="expand"
-            title="expand"
+            className='image-icon'
+            name='expand'
+            title='expand'
           />
         </div>
 

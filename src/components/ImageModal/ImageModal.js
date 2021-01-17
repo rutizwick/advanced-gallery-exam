@@ -5,7 +5,6 @@ import "./ImageModal.css";
 export default class ImageModal extends React.Component {
   componentWillMount() {
     Modal.setAppElement("body");
-    console.log(this.props.imageData);
   }
 
   render() {
