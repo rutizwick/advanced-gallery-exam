@@ -19,7 +19,8 @@ class Gallery extends React.Component {
       tagChange: false
     };
     this.windowResizeLisener = this.windowResizeLisener.bind(this);
-    this.incrementPage = this.incrementPage.bind(this);
+    this.getImages = this.getImages.bind(this)
+    this.loadMoreImages = this.loadMoreImages.bind(this);
   }
 
   getImages(tag, page) {
@@ -40,7 +41,7 @@ class Gallery extends React.Component {
           this.state.tagChange === false
         ) {
           this.setState({
-            images: [...this.state.images, ...res.photos.photo],
+            images: [...this.state.images, ...res.photos.photo]
           });
         } else if (
           res &&
@@ -52,10 +53,15 @@ class Gallery extends React.Component {
           this.setState({ images: res.photos.photo });
         }
       });
+      const nextPage = this.state.page +1
+      this.setState({
+        page: nextPage,
+        tagChange: false
+      });
   }
 
   componentDidMount() {
-    this.getImages(this.props.tag);
+    this.getImages(this.props.tag, this.state.page);
     window.addEventListener('resize', this.windowResizeLisener);
     this.setState({
       galleryWidth: window.innerWidth
@@ -78,11 +84,7 @@ class Gallery extends React.Component {
     });
   };
 
-  incrementPage() {
-    const nextPage = this.state.page + 1;
-    this.setState({
-      page: nextPage
-    });
+  loadMoreImages() {
     this.getImages(this.props.tag, this.state.page);
   }
 
@@ -94,7 +96,7 @@ class Gallery extends React.Component {
 
   render() {
     return (
-      <BottomScrollListener offset={400} onBottom={this.incrementPage}>
+      <BottomScrollListener offset={400} onBottom={this.loadMoreImages}>
         <div className='gallery-root'>
           {this.state.images.map((dto) => {
             return (
