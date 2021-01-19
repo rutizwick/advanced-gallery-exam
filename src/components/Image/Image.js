@@ -17,7 +17,8 @@ class Image extends React.Component {
     this.state = {
       size: 200,
       rotation: 0,
-      showModal: false
+      showModal: false,
+      dragging: false
     };
     this.rotateImage = this.rotateImage.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -76,7 +77,18 @@ class Image extends React.Component {
 
     return (
       <div
+      draggable
         className='image-root'
+        onDrop={(e) => {
+          this.props.handleOnDrop(e, dto.id)
+        }}
+        onDragStart={(e) => {
+          this.setState({dragging: true})
+          this.props.handleOnDragStart(e, dto.id);
+        }}
+        onDragOver={(e) => {
+          this.props.handleOnDragOver(e);
+        }}
         style={{
           width: this.state.size + 'px',
           height: this.state.size + 'px',

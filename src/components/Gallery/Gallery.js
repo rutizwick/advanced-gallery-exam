@@ -4,8 +4,10 @@ import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
 import BottomScrollListener from 'react-bottom-scroll-listener';
+import arrayMove from "array-move";
 
 class Gallery extends React.Component {
+  
   static propTypes = {
     tag: PropTypes.string
   };
@@ -16,11 +18,28 @@ class Gallery extends React.Component {
       page: 1,
       images: [],
       galleryWidth: window.innerWidth,
-      tagChange: false
+      tagChange: false,
     };
     this.windowResizeLisener = this.windowResizeLisener.bind(this);
     this.getImages = this.getImages.bind(this)
     this.loadMoreImages = this.loadMoreImages.bind(this);
+    this.handleOnDragStart=this.handleOnDragStart.bind(this);
+    this.handleOnDragOver = this.handleOnDragOver.bind(this);
+    this.handleOnDrop = this.handleOnDrop.bind(this);
+    this.handleFindIndex= this.handleFindIndex.bind(this);
+    this.onSortEnd = this.onSortEnd.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    this.getImages(props.tag);
+  }
+
+  componentDidMount() {
+    this.getImages(this.props.tag, this.state.page);
+    window.addEventListener('resize', this.windowResizeLisener);
+    this.setState({
+      galleryWidth: window.innerWidth
+    });
   }
 
   getImages(tag, page) {
@@ -60,22 +79,10 @@ class Gallery extends React.Component {
       });
   }
 
-  componentDidMount() {
-    this.getImages(this.props.tag, this.state.page);
-    window.addEventListener('resize', this.windowResizeLisener);
-    this.setState({
-      galleryWidth: window.innerWidth
-    });
-  }
-
   windowResizeLisener() {
     this.setState({
       galleryWidth: window.innerWidth
     });
-  }
-
-  componentWillReceiveProps(props) {
-    this.getImages(props.tag);
   }
 
   deleteImage = (id) => {
@@ -87,12 +94,41 @@ class Gallery extends React.Component {
   loadMoreImages() {
     this.getImages(this.props.tag, this.state.page);
   }
+  
+  handleOnDragStart(e, draggedID) {
+    e.dataTransfer.setData("draggedImageId", draggedID);
+  }
+
+  handleOnDragOver(e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  handleOnDrop(e, id){
+    e.preventDefault();
+    const draggedId = e.dataTransfer.getData("draggedImageId"); 
+    const droppedId = id;
+    this.handleFindIndex(droppedId, draggedId);
+  }
+
+  handleFindIndex(droppedId, draggedId){
+    const {images} = this.state
+    const droppedIndex = images.findIndex((image)=> image.id === droppedId);
+    const draggedIndex = images.findIndex((image)=> image.id === draggedId);
+    this.onSortEnd(draggedIndex, droppedIndex);
+  }
+
+  onSortEnd(draggedIndex, droppedIndex) {
+    let newImageOrder = arrayMove(this.state.images, draggedIndex, droppedIndex);
+    this.setState({ images: newImageOrder });
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.tag !== prevProps.tag) {
       this.setState({ tagChange: true });
     }
   }
+
 
   render() {
     return (
@@ -101,10 +137,14 @@ class Gallery extends React.Component {
           {this.state.images.map((dto) => {
             return (
               <Image
-                key={'image-' + dto.id + dto.secret}
+                key={`image-${dto.id}${Math.random()}`}
                 dto={dto}
                 deleteImage={this.deleteImage}
                 galleryWidth={this.state.galleryWidth}
+                handleOnDragStart={this.handleOnDragStart}
+                handleOnDragOver={this.handleOnDragOver}
+                handleOnDrop={this.handleOnDrop}
+                handleOnDragEnd={this.handleOnDragEnd}
               />
             );
           })}
