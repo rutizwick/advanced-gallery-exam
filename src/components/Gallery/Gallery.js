@@ -4,10 +4,9 @@ import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
 import BottomScrollListener from 'react-bottom-scroll-listener';
-import arrayMove from "array-move";
+import arrayMove from 'array-move';
 
 class Gallery extends React.Component {
-  
   static propTypes = {
     tag: PropTypes.string
   };
@@ -19,14 +18,15 @@ class Gallery extends React.Component {
       images: [],
       galleryWidth: window.innerWidth,
       tagChange: false,
+      loading: false
     };
     this.windowResizeLisener = this.windowResizeLisener.bind(this);
-    this.getImages = this.getImages.bind(this)
+    this.getImages = this.getImages.bind(this);
     this.loadMoreImages = this.loadMoreImages.bind(this);
-    this.handleOnDragStart=this.handleOnDragStart.bind(this);
+    this.handleOnDragStart = this.handleOnDragStart.bind(this);
     this.handleOnDragOver = this.handleOnDragOver.bind(this);
     this.handleOnDrop = this.handleOnDrop.bind(this);
-    this.handleFindIndex= this.handleFindIndex.bind(this);
+    this.handleFindIndex = this.handleFindIndex.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
   }
 
@@ -43,7 +43,9 @@ class Gallery extends React.Component {
   }
 
   getImages(tag, page) {
-    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&page=${page}&tag_mode=any&per_page=100&format=json&nojsoncallback=1`;
+    this.setState({ loading: true });
+    const nextPage = this.state.page + 1;
+    const getImagesUrl = `services/rest/?method=flickr.photos.search&api_key=522c1f9009ca3609bcbaf08545f067ad&tags=${tag}&page=${page}&tag_mode=any&per_page=50&format=json&nojsoncallback=1`;
     const baseUrl = 'https://api.flickr.com/';
     axios({
       url: getImagesUrl,
@@ -60,7 +62,10 @@ class Gallery extends React.Component {
           this.state.tagChange === false
         ) {
           this.setState({
-            images: [...this.state.images, ...res.photos.photo]
+            images: [...this.state.images, ...res.photos.photo],
+            page: nextPage,
+            tagChange: false,
+            loading: false
           });
         } else if (
           res &&
@@ -69,13 +74,13 @@ class Gallery extends React.Component {
           res.photos.photo.length > 0 &&
           this.state.tagChange === true
         ) {
-          this.setState({ images: res.photos.photo });
+          this.setState({
+            images: res.photos.photo,
+            page: nextPage,
+            tagChange: false,
+            loading: false
+          });
         }
-      });
-      const nextPage = this.state.page +1
-      this.setState({
-        page: nextPage,
-        tagChange: false
       });
   }
 
@@ -94,9 +99,9 @@ class Gallery extends React.Component {
   loadMoreImages() {
     this.getImages(this.props.tag, this.state.page);
   }
-  
+
   handleOnDragStart(e, draggedID) {
-    e.dataTransfer.setData("draggedImageId", draggedID);
+    e.dataTransfer.setData('draggedImageId', draggedID);
   }
 
   handleOnDragOver(e) {
@@ -104,22 +109,26 @@ class Gallery extends React.Component {
     e.preventDefault();
   }
 
-  handleOnDrop(e, id){
+  handleOnDrop(e, id) {
     e.preventDefault();
-    const draggedId = e.dataTransfer.getData("draggedImageId"); 
+    const draggedId = e.dataTransfer.getData('draggedImageId');
     const droppedId = id;
     this.handleFindIndex(droppedId, draggedId);
   }
 
-  handleFindIndex(droppedId, draggedId){
-    const {images} = this.state
-    const droppedIndex = images.findIndex((image)=> image.id === droppedId);
-    const draggedIndex = images.findIndex((image)=> image.id === draggedId);
+  handleFindIndex(droppedId, draggedId) {
+    const { images } = this.state;
+    const droppedIndex = images.findIndex((image) => image.id === droppedId);
+    const draggedIndex = images.findIndex((image) => image.id === draggedId);
     this.onSortEnd(draggedIndex, droppedIndex);
   }
 
   onSortEnd(draggedIndex, droppedIndex) {
-    let newImageOrder = arrayMove(this.state.images, draggedIndex, droppedIndex);
+    let newImageOrder = arrayMove(
+      this.state.images,
+      draggedIndex,
+      droppedIndex
+    );
     this.setState({ images: newImageOrder });
   }
 
@@ -129,12 +138,12 @@ class Gallery extends React.Component {
     }
   }
 
-
   render() {
+    const { images, loading } = this.state;
     return (
       <BottomScrollListener offset={400} onBottom={this.loadMoreImages}>
         <div className='gallery-root'>
-          {this.state.images.map((dto) => {
+          {images.map((dto) => {
             return (
               <Image
                 key={`image-${dto.id}${Math.random()}`}
@@ -148,6 +157,14 @@ class Gallery extends React.Component {
               />
             );
           })}
+          {loading && (
+            <div className='preload'>
+              <div className='preload-status'>
+                <div className='preload-status-bar'></div>
+                <div className='preload-status-info'>LOADING</div>
+              </div>
+            </div>
+          )}
         </div>
       </BottomScrollListener>
     );
