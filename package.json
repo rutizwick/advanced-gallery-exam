@@ -84,6 +84,7 @@
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-bottom-scroll-listener": "2.0.0",
+    "react-debounce-input": "^3.2.3",
     "react-dom": "^15.0.0",
     "react-fontawesome": "^1.6.1",
     "react-hot-reload.macro": "^2.1.2",

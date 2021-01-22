@@ -1,8 +1,9 @@
-import React from 'react';
-import './App.scss';
-import Gallery from '../Gallery';
-import FontAwesome from 'react-fontawesome';
-import SavedImages from '../SavedImages/SavedImages';
+import React from "react";
+import "./App.scss";
+import Gallery from "../Gallery";
+import FontAwesome from "react-fontawesome";
+import SavedImages from "../SavedImages/SavedImages";
+import { DebounceInput } from "react-debounce-input";
 
 class App extends React.Component {
   static propTypes = {};
@@ -10,65 +11,69 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tag: 'circus',
+      tag: "circus",
       savedImages: [],
       displaySaved: false,
-      title: 'Flickr Gallery'
+      title: "Flickr Gallery",
     };
-  this.handleHeartClick=this.handleHeartClick.bind(this);
+    this.handleHeartClick = this.handleHeartClick.bind(this);
   }
 
   componentDidMount() {
     let savedTemp = localStorage.getItem("savedImages");
     let savedTempArr = JSON.parse(savedTemp);
-    this.setState({savedImages: savedTempArr});
+    this.setState({ savedImages: savedTempArr });
   }
 
   saveImage = (dto) => {
     const tempSavedImages = [...this.state.savedImages, dto];
     this.setState({
-      savedImages: tempSavedImages
+      savedImages: tempSavedImages,
     });
-    localStorage.setItem('savedImages', JSON.stringify(tempSavedImages));
+    localStorage.setItem("savedImages", JSON.stringify(tempSavedImages));
   };
 
-  handleHeartClick(){
-    if(!this.state.displaySaved){
+  handleHeartClick() {
+    if (!this.state.displaySaved) {
       this.setState({
         displaySaved: true,
-        title: 'Images I ❤️'
-      })
-    }
-    else if (this.state.displaySaved){
+        title: "Images I ❤️",
+      });
+    } else if (this.state.displaySaved) {
       this.setState({
         displaySaved: false,
-        title: 'Flickr Gallery'
-      })
+        title: "Flickr Gallery",
+      });
     }
   }
 
   render() {
+    const {tag, savedImages} = this.state;
     return (
-      <div className='app-root'>
-        <div className='app-header'>
+      <div className="app-root">
+        <div className="app-header">
           <FontAwesome
             onClick={this.handleHeartClick}
-            className='header-heart'
-            name='heart'
-            title='heart'
+            className="header-heart"
+            name="heart"
+            title="heart"
           />
           <div>
             <h2>{this.state.title}</h2>
-            <input
-              className='app-input'
-              onChange={(event) => this.setState({ tag: event.target.value })}
-              value={this.state.tag}
+            <DebounceInput
+              className="app-input"
+              debounceTimeout={1000}
+              onChange={(e) => this.setState({ tag: e.target.value })}
+              value={tag}
             />
           </div>
         </div>
-        {!this.state.displaySaved && <Gallery saveImage={this.saveImage} tag={this.state.tag} />}
-        {this.state.displaySaved && <SavedImages savedImages={this.state.savedImages}/>
-        }
+        {!this.state.displaySaved && (
+          <Gallery saveImage={this.saveImage} tag={tag} />
+        )}
+        {this.state.displaySaved && (
+          <SavedImages savedImages={savedImages} />
+        )}
       </div>
     );
   }
