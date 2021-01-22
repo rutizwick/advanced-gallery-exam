@@ -79,10 +79,10 @@ class App extends React.Component {
           </div>
         </div>
         {!this.state.displaySaved && (
-          <Gallery 
+          <Gallery
           savedImagesArray={savedImages}
-          saveImage={this.saveImage} 
-          tag={tag} />
+          saveImage={this.saveImage}
+          tag={tag}/>
         )}
         {this.state.displaySaved && <SavedImages savedImages={savedImages} />}
       </div>
