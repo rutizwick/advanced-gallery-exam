@@ -52,6 +52,14 @@
     right: 0;
     border: none;
   }
+  .saved{
+    color: hotpink;
+
+    &:hover{
+      color: hotpink;
+    }
+  }
+
   .image-modal {
     box-shadow: 0 8px 6px -6px black;
     position: static;

@@ -1,0 +1,13 @@
+.saved-gal{
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 1rem 2rem;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    justify-content: center;
+}
+
+.saved-img{
+    width: 100%;
+    align-self: center;
+}

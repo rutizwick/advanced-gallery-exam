@@ -143,6 +143,7 @@ class Gallery extends React.Component {
               <Image
                 key={`image-${dto.id}${Math.random()}`}
                 dto={dto}
+                savedImagesArray={this.props.savedImagesArray}
                 saveImage={this.props.saveImage}
                 deleteImage={this.deleteImage}
                 galleryWidth={this.state.galleryWidth}

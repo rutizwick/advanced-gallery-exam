@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tag: 'circus',
+      tag: 'cirque du soleil',
       savedImages: [],
       displaySaved: false,
       title: 'Flickr Gallery'
@@ -19,10 +19,18 @@ class App extends React.Component {
     this.handleHeartClick = this.handleHeartClick.bind(this);
   }
 
+  checkLocalStorage(){
+    if (localStorage.getItem('savedImages') === null) return false
+    else return true;
+  }
+
   componentDidMount() {
-    let savedTemp = localStorage.getItem('savedImages');
-    let savedTempArr = JSON.parse(savedTemp);
-    this.setState({ savedImages: savedTempArr });
+    const hasStorage = this.checkLocalStorage();
+    if (hasStorage) {
+      const savedTemp = localStorage.getItem('savedImages');
+      let savedTempArr = JSON.parse(savedTemp);
+      this.setState({ savedImages: savedTempArr });
+    }
   }
 
   saveImage = (dto) => {
@@ -71,7 +79,10 @@ class App extends React.Component {
           </div>
         </div>
         {!this.state.displaySaved && (
-          <Gallery saveImage={this.saveImage} tag={tag} />
+          <Gallery 
+          savedImagesArray={savedImages}
+          saveImage={this.saveImage} 
+          tag={tag} />
         )}
         {this.state.displaySaved && <SavedImages savedImages={savedImages} />}
       </div>
