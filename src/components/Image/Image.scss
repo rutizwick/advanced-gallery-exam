@@ -46,7 +46,12 @@
       border-color: white;
     }
   }
-
+  .heart {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+  }
   .image-modal {
     box-shadow: 0 8px 6px -6px black;
     position: static;

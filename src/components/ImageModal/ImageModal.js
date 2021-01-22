@@ -8,6 +8,7 @@ export default class ImageModal extends React.Component {
   }
 
   render() {
+    
     const { isOpen, imageData, handleCloseModal, imgUrl } = this.props;
 
     return (

@@ -7,6 +7,7 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import arrayMove from 'array-move';
 
 class Gallery extends React.Component {
+  
   static propTypes = {
     tag: PropTypes.string
   };
@@ -42,6 +43,12 @@ class Gallery extends React.Component {
     });
   }
 
+  checkResPhoto(res) {
+    if (res && res.photos && res.photos.photo && res.photos.photo.length > 0) {
+      return true;
+    }
+  }
+
   getImages(tag, page) {
     this.setState({ loading: true });
     const nextPage = this.state.page + 1;
@@ -54,33 +61,21 @@ class Gallery extends React.Component {
     })
       .then((res) => res.data)
       .then((res) => {
-        if (
-          res &&
-          res.photos &&
-          res.photos.photo &&
-          res.photos.photo.length > 0 &&
-          this.state.tagChange === false
-        ) {
+        const resPhotos = this.checkResPhoto(res);
+        if (resPhotos && !this.state.tagChange) {
           this.setState({
-            images: [...this.state.images, ...res.photos.photo],
             page: nextPage,
             tagChange: false,
-            loading: false
+            loading: false,
+            images: [...this.state.images, ...res.photos.photo]
           });
-        } else if (
-          res &&
-          res.photos &&
-          res.photos.photo &&
-          res.photos.photo.length > 0 &&
-          this.state.tagChange === true
-        ) {
+        } else if (resPhotos && this.state.tagChange)
           this.setState({
-            images: res.photos.photo,
             page: nextPage,
             tagChange: false,
-            loading: false
+            loading: false,
+            images: res.photos.photo
           });
-        }
       });
   }
 
@@ -148,6 +143,7 @@ class Gallery extends React.Component {
               <Image
                 key={`image-${dto.id}${Math.random()}`}
                 dto={dto}
+                saveImage={this.props.saveImage}
                 deleteImage={this.deleteImage}
                 galleryWidth={this.state.galleryWidth}
                 handleOnDragStart={this.handleOnDragStart}
