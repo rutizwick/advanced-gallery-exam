@@ -17,10 +17,11 @@ class App extends React.Component {
       title: 'Flickr Gallery'
     };
     this.handleHeartClick = this.handleHeartClick.bind(this);
+    this.removeSavedImage = this.removeSavedImage.bind(this);
   }
 
-  checkLocalStorage(){
-    if (localStorage.getItem('savedImages') === null) return false
+  checkLocalStorage() {
+    if (localStorage.getItem('savedImages') === null) return false;
     else return true;
   }
 
@@ -34,11 +35,32 @@ class App extends React.Component {
   }
 
   saveImage = (dto) => {
-    const tempSavedImages = [...this.state.savedImages, dto];
-    this.setState({
-      savedImages: tempSavedImages
+    let imageSaved = false;
+    this.state.savedImages.map((img) => {
+      if (img.id === dto.id) {
+        this.removeSavedImage(dto);
+        imageSaved = true;
+        return;
+      }
     });
-    localStorage.setItem('savedImages', JSON.stringify(tempSavedImages));
+    if (!imageSaved) {
+      const tempSavedImages = [...this.state.savedImages, dto];
+      this.setState({
+        savedImages: tempSavedImages
+      });
+      localStorage.setItem('savedImages', JSON.stringify(tempSavedImages));
+    }
+  };
+
+
+  removeSavedImage = (dto) => {
+    const newTempArray = this.state.savedImages.filter(
+      (img) => img.id !== dto.id
+    );
+    this.setState({
+      savedImages: newTempArray
+    });
+    localStorage.setItem('savedImages', JSON.stringify(newTempArray));
   };
 
   handleHeartClick() {
@@ -80,9 +102,10 @@ class App extends React.Component {
         </div>
         {!this.state.displaySaved && (
           <Gallery
-          savedImagesArray={savedImages}
-          saveImage={this.saveImage}
-          tag={tag}/>
+            savedImagesArray={savedImages}
+            saveImage={this.saveImage}
+            tag={tag}
+          />
         )}
         {this.state.displaySaved && <SavedImages savedImages={savedImages} />}
       </div>
