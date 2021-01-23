@@ -7,6 +7,27 @@ export default class ImageModal extends React.Component {
     Modal.setAppElement('body');
   }
 
+  download(e) {
+    e.preventDefault();
+    fetch(e.target.href, {
+      method: "GET",
+      headers: {},
+    })
+      .then((response) => {
+        response.arrayBuffer().then(function (buffer) {
+          const url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `img.png`); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  
   render() {
     
     const { isOpen, imageData, handleCloseModal, imgUrl } = this.props;
@@ -19,6 +40,7 @@ export default class ImageModal extends React.Component {
             <span className='close-button' onClick={handleCloseModal}>
               &times;
             </span>
+            <a onClick={this.download} download href={imgUrl}>Download</a>
             <img
               alt={imageData.title}
               className='image-in-modal'
