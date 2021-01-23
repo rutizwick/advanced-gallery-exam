@@ -4,6 +4,7 @@ import Gallery from '../Gallery';
 import FontAwesome from 'react-fontawesome';
 import SavedImages from '../SavedImages/SavedImages';
 import { DebounceInput } from 'react-debounce-input';
+import ScrollToTop from '../ScrollTop/ScrollTop';
 
 class App extends React.Component {
   static propTypes = {};
@@ -52,7 +53,6 @@ class App extends React.Component {
     }
   };
 
-
   removeSavedImage = (dto) => {
     const newTempArray = this.state.savedImages.filter(
       (img) => img.id !== dto.id
@@ -100,6 +100,7 @@ class App extends React.Component {
             )}
           </div>
         </div>
+        <ScrollToTop/>
         {!this.state.displaySaved && (
           <Gallery
             savedImagesArray={savedImages}
