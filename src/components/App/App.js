@@ -5,6 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import SavedImages from '../SavedImages/SavedImages';
 import { DebounceInput } from 'react-debounce-input';
 import ScrollToTop from '../ScrollTop/ScrollTop';
+import WixPage from '../WixPage/WixPage';
 
 class App extends React.Component {
   static propTypes = {};
@@ -12,7 +13,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tag: 'cirque du soleil',
+      tag: 'wix',
       savedImages: [],
       displaySaved: false,
       title: 'Flickr Gallery'
@@ -78,7 +79,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { tag, savedImages } = this.state;
+    const { tag, savedImages, displaySaved, title } = this.state;
     return (
       <div className='app-root'>
         <div className='app-header'>
@@ -89,8 +90,8 @@ class App extends React.Component {
             title='heart'
           />
           <div>
-            <h2>{this.state.title}</h2>
-            {!this.state.displaySaved && (
+            <h2>{title}</h2>
+            {!displaySaved && (
               <DebounceInput
                 className='app-input'
                 debounceTimeout={1000}
@@ -101,14 +102,19 @@ class App extends React.Component {
           </div>
         </div>
         <ScrollToTop/>
-        {!this.state.displaySaved && (
+        {tag === 'wix' &&
+        !displaySaved &&
+        <WixPage/>
+        }
+        {!displaySaved &&
+        tag !== 'wix' && (
           <Gallery
             savedImagesArray={savedImages}
             saveImage={this.saveImage}
             tag={tag}
           />
         )}
-        {this.state.displaySaved && <SavedImages savedImages={savedImages} />}
+        {displaySaved  && <SavedImages savedImages={savedImages} />}
       </div>
     );
   }

@@ -2,7 +2,9 @@ import React from 'react';
 import Modal from 'react-modal';
 import './ImageModal.css';
 
-export default class ImageModal extends React.Component {
+export default class ImageModal extends React.
+
+Component {
   componentWillMount() {
     Modal.setAppElement('body');
   }
