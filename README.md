@@ -1,3 +1,13 @@
+# Features I added 
+
+1. Ability to save and display saved images
+2. Ability to Download images 
+3. Wix page (the wix tag was full of really weird images... I didn't think it did wix justice!)
+4. Debounce on search 
+5. Loading inidcator for search
+6. Button for scrolling back to top of page 
+
+
 # Flickr Gallery
 
 Welcome to the Flickr Gallery application.
