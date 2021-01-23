@@ -9,15 +9,15 @@ export default class WixPage extends Component {
           Did you mean ...
           <a
           target="_blank"
-          className='wix-link' 
+          className='wix-link'
           href='https://www.wix.com/'>
             best company ever{' '}
           </a>
           and the future home of
           <a
           target="_blank"
-          className='wix-link' 
-          href='https://www.linkedin.com/in/ruti-zwick/'>{` Ruti Zwick?`}
+          className='wix-link'
+          href='https://www.linkedin.com/in/ruti-zwick/'>{' Ruti Zwick?'}
           </a>
         </h2>
         <div>
