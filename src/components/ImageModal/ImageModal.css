@@ -11,27 +11,37 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.close-button {
-  position: absolute;
-  display: inline;
-  color: black;
+.modal-button{
   text-decoration: none;
+  position: absolute;
+  top: 0;
   line-height: 36px;
   font-size: 30px;
-  font-weight: lighter;
   background: #fff;
-  border-radius: 5px;
   height: 40px;
   width: 40px;
   text-align: center;
+  display: inline;
+  cursor: pointer;
+}
+
+.download-button{
+  left: 0;
+  border-radius: 0 0 5px 0;
+}
+
+.download-button:hover{
+  background: #A65E58;
+}
+
+.close-button {
+  color: #343E46;
   right: 0;
-  top: 0;
   border-radius: 0 0 0 5px;
 }
 .close-button:hover {
-  color: red;
+  color:#A65E58;
   text-decoration: none;
-  cursor: pointer;
 }
 
 .image-in-modal {
