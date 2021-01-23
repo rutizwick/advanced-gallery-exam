@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import './Saved.css';
 
 export default class SavedImages extends Component {
-
   render() {
-
     const { savedImages } = this.props;
 
     return (
@@ -12,9 +10,8 @@ export default class SavedImages extends Component {
         {savedImages &&
           savedImages.map((dto) => {
             return (
-              <div>
+              <div key={dto.id}>
                 <img
-                  key={dto.id}
                   id={dto.id}
                   alt={dto.title}
                   className='saved-img'
