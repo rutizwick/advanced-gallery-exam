@@ -7,6 +7,7 @@
 5. Loading inidcator for search
 6. Button for scrolling back to top of page 
 
+Link to Deployed Website: https://rutizwick.github.io/flickr-gallery/
 
 # Flickr Gallery
 
