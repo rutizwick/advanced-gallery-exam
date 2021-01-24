@@ -3,7 +3,7 @@ import './App.scss';
 import Gallery from '../Gallery';
 import FontAwesome from 'react-fontawesome';
 import SavedImages from '../SavedImages/SavedImages';
-import { DebounceInput } from 'react-debounce-input';
+// import { DebounceInput } from 'react-debounce-input';
 import ScrollToTop from '../ScrollTop/ScrollTop';
 import WixPage from '../WixPage/WixPage';
 
@@ -13,6 +13,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      tempTag: '',
       tag: 'wix',
       savedImages: [],
       displaySaved: false,
@@ -79,7 +80,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { tag, savedImages, displaySaved, title } = this.state;
+    const { tag, savedImages, displaySaved, title, tempTag } = this.state;
     return (
       <div className='app-root'>
         <div className='app-header'>
@@ -92,12 +93,16 @@ class App extends React.Component {
           <div>
             <h2>{title}</h2>
             {!displaySaved && (
-              <DebounceInput
+              <div>
+              <input
                 className='app-input'
-                debounceTimeout={1000}
-                onChange={(e) => this.setState({ tag: e.target.value })}
-                value={tag}
+                onChange={(e) => this.setState({ tempTag: e.target.value })}
+                value={tempTag}
               />
+              <button
+              onClick={()=> this.setState({tag: tempTag})}
+              >Search</button>
+              </div>
             )}
           </div>
         </div>
