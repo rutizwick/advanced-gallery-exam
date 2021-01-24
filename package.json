@@ -77,7 +77,6 @@
     "webpack-dev-server": "^1.16.5"
   },
   "dependencies": {
-    "array-move": "^3.0.1",
     "axios": "^0.21.1",
     "core-js": "^2.6.12",
     "node-sass": "^4.7.2",
