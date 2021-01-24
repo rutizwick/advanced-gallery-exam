@@ -4,6 +4,7 @@ import axios from 'axios';
 import Image from '../Image';
 import './Gallery.scss';
 import BottomScrollListener from 'react-bottom-scroll-listener';
+import arrayMove from 'array-move';
 
 class Gallery extends React.Component {
   
