@@ -16,7 +16,8 @@ class App extends React.Component {
       tag: 'wix',
       savedImages: [],
       displaySaved: false,
-      title: 'Flickr Gallery'
+      title: 'Flickr Gallery',
+      iconName: 'heart'
     };
     this.handleHeartClick = this.handleHeartClick.bind(this);
     this.removeSavedImage = this.removeSavedImage.bind(this);
@@ -68,26 +69,28 @@ class App extends React.Component {
     if (!this.state.displaySaved) {
       this.setState({
         displaySaved: true,
-        title: 'Images I ❤️'
+        title: 'Images I ❤️',
+        iconName: 'home'
       });
     } else if (this.state.displaySaved) {
       this.setState({
         displaySaved: false,
-        title: 'Flickr Gallery'
+        title: 'Flickr Gallery',
+        iconName: 'heart'
       });
     }
   }
 
   render() {
-    const { tag, savedImages, displaySaved, title } = this.state;
+    const { tag, savedImages, displaySaved, title, iconName } = this.state;
     return (
       <div className='app-root'>
         <div className='app-header'>
           <FontAwesome
             onClick={this.handleHeartClick}
             className='header-heart'
-            name='heart'
-            title='heart'
+            name={iconName}
+            title={iconName}
           />
           <div>
             <h2>{title}</h2>
