@@ -118,11 +118,16 @@ class Gallery extends React.Component {
   }
 
   onSortEnd(draggedIndex, droppedIndex) {
-    let newImageOrder = arrayMove(
-      this.state.images,
-      draggedIndex,
-      droppedIndex
-    );
+    const images = this.state.images;
+    let newImageOrder = images;
+    newImageOrder.push(images);
+    if (droppedIndex >= newImageOrder.length){
+      let k = droppedIndex - newImageOrder.length + 1;
+      while (k--){
+        newImageOrder.push(undefined)
+      }
+    }
+    newImageOrder.splice(droppedIndex, 0, newImageOrder.splice(draggedIndex, 1)[0]);
     this.setState({ images: newImageOrder });
   }
 
