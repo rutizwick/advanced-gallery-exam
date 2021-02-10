@@ -14,7 +14,7 @@ class Gallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
+      page: 0,
       images: [],
       galleryWidth: window.innerWidth,
       tagChange: false,
@@ -70,7 +70,7 @@ class Gallery extends React.Component {
           });
         } else if (resPhotos && this.state.tagChange)
           this.setState({
-            page: nextPage,
+            page: 1,
             tagChange: false,
             loading: false,
             images: res.photos.photo
@@ -100,7 +100,6 @@ class Gallery extends React.Component {
 
   handleOnDragOver(e) {
     e.stopPropagation();
-    e.target.style={}
     e.preventDefault();
   }
 
@@ -127,7 +126,8 @@ class Gallery extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.tag !== prevProps.tag) {
       this.setState({
-        tagChange: true
+        tagChange: true,
+        page: 0
       });
     }
   }
