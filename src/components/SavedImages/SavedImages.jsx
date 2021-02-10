@@ -3,6 +3,7 @@ import './Saved.css';
 
 export default class SavedImages extends Component {
   render() {
+    
     const { savedImages } = this.props;
 
     return (

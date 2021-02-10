@@ -20,16 +20,16 @@ class App extends React.Component {
       iconName: 'heart'
     };
     this.handleHeartClick = this.handleHeartClick.bind(this);
-    this.removeSavedImage = this.removeSavedImage.bind(this);
   }
 
-  checkLocalStorage() {
+  checkSavedImages() {
     if (localStorage.getItem('savedImages') === null) return false;
     else return true;
   }
 
+  
   componentDidMount() {
-    const hasStorage = this.checkLocalStorage();
+    const hasStorage = this.checkSavedImages();
     if (hasStorage) {
       const savedTemp = localStorage.getItem('savedImages');
       let savedTempArr = JSON.parse(savedTemp);

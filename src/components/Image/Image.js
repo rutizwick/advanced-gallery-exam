@@ -16,7 +16,6 @@ class Image extends React.Component {
       size: 200,
       rotation: 0,
       showModal: false,
-      dragging: false,
       saved: ''
     };
     this.rotateImage = this.rotateImage.bind(this);
@@ -82,21 +81,20 @@ class Image extends React.Component {
 
   render() {
     const { rotation, showModal, saved } = this.state;
-    const { dto, saveImage, deleteImage } = this.props;
+    const { dto, saveImage, deleteImage, handleOnDrop, handleOnDragStart, handleOnDragOver } = this.props;
 
     return (
       <div
         draggable
         className='image-root'
         onDrop={(e) => {
-          this.props.handleOnDrop(e, dto.id);
+          handleOnDrop(e, dto.id);
         }}
         onDragStart={(e) => {
-          this.setState({ dragging: true });
-          this.props.handleOnDragStart(e, dto.id);
+          handleOnDragStart(e, dto.id);
         }}
         onDragOver={(e) => {
-          this.props.handleOnDragOver(e);
+          handleOnDragOver(e);
         }}
         style={{
           width: this.state.size + 'px',
@@ -122,14 +120,12 @@ class Image extends React.Component {
             name='sync-alt'
             title='rotate'
           />
-
           <FontAwesome
             onClick={deleteImage.bind(this, dto.id)}
             className='image-icon'
             name='trash-alt'
             title='delete'
           />
-
           <FontAwesome
             onClick={this.handleOpenModal}
             className='image-icon'
@@ -137,7 +133,6 @@ class Image extends React.Component {
             title='expand'
           />
         </div>
-
         <ImageModal
           isOpen={showModal}
           handleCloseModal={this.handleCloseModal}

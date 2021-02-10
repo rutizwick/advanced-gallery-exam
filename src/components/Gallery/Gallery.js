@@ -100,6 +100,7 @@ class Gallery extends React.Component {
 
   handleOnDragOver(e) {
     e.stopPropagation();
+    e.target.style={}
     e.preventDefault();
   }
 
@@ -118,27 +119,23 @@ class Gallery extends React.Component {
   }
 
   onSortEnd(draggedIndex, droppedIndex) {
-    const images = this.state.images;
-    let newImageOrder = images;
-    newImageOrder.push(images);
-    if (droppedIndex >= newImageOrder.length){
-      let k = droppedIndex - newImageOrder.length + 1;
-      while (k--){
-        newImageOrder.push(undefined)
-      }
-    }
+    let newImageOrder = this.state.images;
     newImageOrder.splice(droppedIndex, 0, newImageOrder.splice(draggedIndex, 1)[0]);
     this.setState({ images: newImageOrder });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.tag !== prevProps.tag) {
-      this.setState({ tagChange: true });
+      this.setState({
+        tagChange: true
+      });
     }
   }
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, galleryWidth } = this.state;
+    const {savedImagesArray, saveImage} = this.props;
+
     return (
       <BottomScrollListener offset={400} onBottom={this.loadMoreImages}>
         <div className='gallery-root'>
@@ -147,14 +144,13 @@ class Gallery extends React.Component {
               <Image
                 key={`image-${dto.id}${Math.random()}`}
                 dto={dto}
-                savedImagesArray={this.props.savedImagesArray}
-                saveImage={this.props.saveImage}
+                savedImagesArray={savedImagesArray}
+                saveImage={saveImage}
                 deleteImage={this.deleteImage}
-                galleryWidth={this.state.galleryWidth}
+                galleryWidth={galleryWidth}
                 handleOnDragStart={this.handleOnDragStart}
                 handleOnDragOver={this.handleOnDragOver}
                 handleOnDrop={this.handleOnDrop}
-                handleOnDragEnd={this.handleOnDragEnd}
               />
             );
           })}
