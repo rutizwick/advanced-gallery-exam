@@ -39,7 +39,7 @@ class App extends React.Component {
 
   saveImage = (dto) => {
     let imageSaved = false;
-    this.state.savedImages.map((img) => {
+    this.state.savedImages.forEach((img) => {
       if (img.id === dto.id) {
         this.removeSavedImage(dto);
         imageSaved = true;

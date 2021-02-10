@@ -30,10 +30,6 @@ class Gallery extends React.Component {
     this.onSortEnd = this.onSortEnd.bind(this);
   }
 
-  componentWillReceiveProps(props) {
-    this.getImages(props.tag);
-  }
-
   componentDidMount() {
     this.getImages(this.props.tag, this.state.page);
     window.addEventListener('resize', this.windowResizeLisener);
